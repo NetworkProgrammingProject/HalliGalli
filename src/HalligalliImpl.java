@@ -3,7 +3,7 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
 public class HalligalliImpl extends  UnicastRemoteObject implements Halligalli {
-	
+	private static int id = 0;
 	private static final long serialVersionUID = 1L;
 	private GameManager gameManager = new GameManager();
 	public HalligalliImpl(int port) throws Exception {
@@ -11,10 +11,10 @@ public class HalligalliImpl extends  UnicastRemoteObject implements Halligalli {
 	}
 
 	public int joinGame() throws RemoteException{
-		return 0;
+		return id++;
 	}
 	public String getStatus() throws RemoteException{
-		return "test";
+		return "Connected";
 	}
 	public void openCard() throws RemoteException{
 
