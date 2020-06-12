@@ -11,15 +11,20 @@ public class HalligalliImpl extends  UnicastRemoteObject implements Halligalli {
 	}
 
 	public int joinGame() throws RemoteException{
-		return id++;
+		return gameManager.waitingGame();
 	}
-	public String getStatus() throws RemoteException{
-		return "Connected";
+	public StatusRes getStatus(Boolean playingGame, int userId) throws RemoteException{
+		// client에서는 scheduler활용하여 계속 watching
+		if(playingGame)
+			return gameManager.gameStatus(userId);
+		else{
+			return gameManager.isGameStart(userId);
+		}
 	}
-	public void openCard() throws RemoteException{
-
+	public void openCard(int userId) throws RemoteException{
+		gameManager.openCard(userId);
 	}
-	public void hitBell() throws RemoteException{
-
+	public void hitBell(int userId) throws RemoteException{
+		gameManager.hitBell(userId);
 	}
 }

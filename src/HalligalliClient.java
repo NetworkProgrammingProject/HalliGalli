@@ -40,11 +40,12 @@ public class HalligalliClient {
             // interface
             Halligalli obj = (Halligalli) registry.lookup(mServName);
 
-            String message = "Connected";
+            //메소드 변경으로 인한 주석처리
+/*            String message = "Connected";
             message = obj.getStatus();
             if(message.contentEquals("Connected"))
             	new HalligalliClient(obj);
-            System.out.println(message + "\n");
+            System.out.println(message + "\n");*/
         } catch (Exception e) {
             System.out.println("HalliGalliClient exception: " + e.getMessage());
             e.printStackTrace();
