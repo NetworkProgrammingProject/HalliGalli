@@ -62,11 +62,12 @@ public class Game {
 
     public synchronized void hitBell(int user) {
         if (this.bellUser == -1) {
-            if (this.validateBell()) {                                  //성공 해서 카드 받는다
+            // 두명이 남았을 경우 처리가 필요하다.
+            if (this.validateBell()) {       //성공 해서 카드 받는다
                 for (int i = 0; i < openCards.size(); i++)
                     this.deck.get(user).add(openCards.get(i));
                 this.openCards.clear();
-            } else                                                      //실패해서 카드 한장씩 다른사람에게 준다.
+            } else                          //실패해서 카드 한장씩 다른사람에게 준다.
                 for (int i = 0; i < 4; i++)
                     this.deck.get(this.users.get(i)).add(this.deck.get(user).poll());
             this.bellUser = user;

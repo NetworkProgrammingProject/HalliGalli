@@ -37,15 +37,21 @@ public class GameManager {
 
     public StatusRes isGameStart(int userId) {
         if (gameNo.containsKey(userId))
-            return new StatusRes();             // 시작했을 때
+            return this.gameStatus(userId);
         else
-            return new StatusRes();             // 아직 대기중일때
+            return new StatusRes(false);             // 아직 대기중일때
     }
 
     public StatusRes gameStatus(int userId) {
         Game game = getGameByUser(userId);
-        // 현재 상태 파악하는 코드 작성
-        return new StatusRes();
+        ArrayList<Integer> remainingCards = new ArrayList<Integer>();
+        for(int i = 0; i<4;i++){
+            remainingCards.add(game.deck.get(game.users.get(i)).size());
+        }
+        if(game.bellUser==-1)
+            return new StatusRes(game.openCard,game.users,remainingCards);
+        else
+            return new StatusRes(game.openCard,game.users,remainingCards,game.bellUser);
     }
 
     private Game getGameByUser(int userId) {
