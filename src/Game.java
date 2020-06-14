@@ -41,7 +41,7 @@ public class Game {
         this.openCards.add(openedCard);
         int userNo = this.users.indexOf(user);
         this.openCard[userNo] = openedCard;
-        if (userNo == 3)
+        if (userNo == this.users.size() - 1)
             this.turn = 0;
         else
             this.turn = userNo + 1;
@@ -50,11 +50,11 @@ public class Game {
 
     public Boolean validateBell() {
         int[] fruit = new int[4];
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < users.size(); i++) {
             Card card = this.openCard[i];
             fruit[card.fruit - 1] += card.num;
         }
-        for (int i = 0; i < 4; i++)
+        for (int i = 0; i < users.size(); i++)
             if (fruit[i] == 5)
                 return Boolean.TRUE;
         return Boolean.FALSE;
@@ -62,13 +62,22 @@ public class Game {
 
     public synchronized void hitBell(int user) {
         if (this.bellUser == -1) {
-            // 두명이 남았을 경우 처리가 필요하다.
             if (this.validateBell()) {       //성공 해서 카드 받는다
                 for (int i = 0; i < openCards.size(); i++)
                     this.deck.get(user).add(openCards.get(i));
                 this.openCards.clear();
+                this.turn = users.indexOf(user);
+
+                // opencard 초기화
+                for (int i = 0; i < this.users.size(); i++)
+                    this.openCard[i] = null;
+
+                // 탈락처리
+                for (int i = 0; i < this.users.size(); i++)
+                    if (this.deck.get(this.users.get(i)).isEmpty())
+                        this.users.remove(i);
             } else                          //실패해서 카드 한장씩 다른사람에게 준다.
-                for (int i = 0; i < 4; i++)
+                for (int i = 0; i < users.size(); i++)
                     this.deck.get(this.users.get(i)).add(this.deck.get(user).poll());
             this.bellUser = user;
         }
