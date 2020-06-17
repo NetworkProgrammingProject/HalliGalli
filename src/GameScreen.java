@@ -6,7 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.Dimension;
 
 import java.lang.IllegalArgumentException;
-
+import java.util.Timer;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -21,7 +21,7 @@ public class GameScreen extends JFrame {
 	static final int DEFAULT_HEIGHT = 400;
 	
 	Halligalli halliGalli;
-	
+
 	
 	public GameScreen(String title, Halligalli halliGalli)
 	{

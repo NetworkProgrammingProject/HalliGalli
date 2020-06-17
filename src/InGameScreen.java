@@ -3,6 +3,8 @@ import java.awt.GridLayout;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.event.ActionListener;
+import java.io.Serializable;
+import java.util.Timer;
 import java.awt.event.ActionEvent;
 import java.awt.BorderLayout;
 
@@ -14,7 +16,7 @@ import javax.swing.JLabel;
 
 
 
-public class InGameScreen extends GameScreen {
+public class InGameScreen extends GameScreen implements Serializable {
 
 	static final String TITLE = "Play Game";
 	static final int PLAYER1 = 1;
@@ -26,10 +28,16 @@ public class InGameScreen extends GameScreen {
 	static final int[][] PLAYER_OUT_GRID = {{2,1},{1,2},{1,2},{2,1}};
 	static final int[][] PLAYER_IN_GRID = {{1,3},{3,1},{3,1},{1,3}};	
 	
-	public InGameScreen(Halligalli halliGalli)
+	Timer m_timer;	
+	ScheduledJob job;
+	
+	public InGameScreen(Halligalli halliGalli,int id)
 	{
 		super(TITLE,halliGalli);
 		setContentPane();
+		m_timer = new Timer();
+    	job = new ScheduledJob(halliGalli, id);
+        m_timer.schedule(job, 0, 1000);
 	}
 	
 	public InGameScreen(Halligalli halliGalli,int x,int y){
@@ -118,7 +126,6 @@ public class InGameScreen extends GameScreen {
 		pansInnerGrid[pId/2].add(panPoints);
 		
 		playPanel.add(pansInnerGrid[0]);
-		playPanel.add(pansInnerGrid[1]);
-		
+		playPanel.add(pansInnerGrid[1]);	
 	}
 }

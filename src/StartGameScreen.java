@@ -57,7 +57,8 @@ public class StartGameScreen extends GameScreen {
 							do {
 								HalligalliClient.id = halliGalli.joinGame();
 							}while(HalligalliClient.id < 0);
-							new InGameScreen(halliGalli);
+							StatusRes st = new StatusRes(true);
+							new InGameScreen(halliGalli,HalligalliClient.id);
 							dispose();	
 						} catch (RemoteException e1) {
 							// TODO Auto-generated catch block

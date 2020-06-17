@@ -20,12 +20,9 @@ public class HalligalliClient {
     public HalligalliClient(Halligalli halliGalli) {
     	users = new Users();
     	stScreen = new StartGameScreen(halliGalli);
-    	while(id<0);
+    	//while(id<0);
     	//	System.out.println(-1);
-      	m_timer = new Timer();
-        
-    	job = new ScheduledJob(halliGalli, id);
-        m_timer.schedule(job, 0, 1000);
+      	
     }
     
     public static void main(String args[]) {
@@ -35,6 +32,7 @@ public class HalligalliClient {
 
             String mServAddr = InetAddress.getLocalHost().getHostName();
             String mServName = "HalliGalli";
+
             
             // Make reference to SSL-based registry
             Registry registry = LocateRegistry.getRegistry(

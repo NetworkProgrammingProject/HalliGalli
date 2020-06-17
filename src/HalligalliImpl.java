@@ -1,8 +1,10 @@
 import javax.rmi.ssl.SslRMIClientSocketFactory;
+
+import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
-public class HalligalliImpl extends  UnicastRemoteObject implements Halligalli {
+public class HalligalliImpl extends  UnicastRemoteObject implements Halligalli, Serializable  {
 	private static int id = 0;
 	private static final long serialVersionUID = 1L;
 	private GameManager gameManager = new GameManager();

@@ -1,7 +1,8 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class StatusRes {
+public class StatusRes implements Serializable {
     Boolean waiting;
     Card[] openCards;
     ArrayList<Integer> users;
