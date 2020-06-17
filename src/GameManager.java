@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Queue;
 
 public class GameManager {
@@ -10,6 +11,8 @@ public class GameManager {
 
     public GameManager() {
         this.games = new ArrayList<Game>();
+        this.waitingUser = new LinkedList<Integer>();
+        this.gameNo = new HashMap<Integer, Integer>();
     }
 
     public int waitingGame() {
@@ -34,28 +37,32 @@ public class GameManager {
 
     public StatusRes isGameStart(int userId) {
         if (gameNo.containsKey(userId))
-            return new StatusRes();             // 시작했을 때
+            return this.gameStatus(userId);
         else
-            return new StatusRes();             // 아직 대기중일때
+            return new StatusRes(false);             // 아직 대기중일때
     }
 
     public StatusRes gameStatus(int userId) {
         Game game = getGameByUser(userId);
-        // 현재 상태 파악하는 코드 작성
-        return new StatusRes();
+        ArrayList<Integer> remainingCards = new ArrayList<Integer>();
+        for (int i = 0; i < 4; i++) {
+            remainingCards.add(game.deck.get(game.users.get(i)).size());
+        }
+        if (game.bellUser == -1)
+            return new StatusRes(game.openCard, game.users, remainingCards, game.turn);
+        else
+            return new StatusRes(game.openCard, game.users, remainingCards, game.turn, game.bellUser);
     }
-    
-    private Game getGameByUser(int userId){
+
+    private Game getGameByUser(int userId) {
         return games.get(gameNo.get(userId));
     }
 
     public void openCard(int userId) {
-        Game game = getGameByUser(userId);
-        // 카드 까기
+        this.getGameByUser(userId).openByUser(userId);
     }
 
     public void hitBell(int userId) {
-        Game game = getGameByUser(userId);
-        // 벨 치기 (뮤텍스를 사용해 최초 입력만 입력받음) 
+        getGameByUser(userId).hitBell(userId);
     }
 }
