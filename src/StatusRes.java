@@ -7,24 +7,27 @@ public class StatusRes {
     ArrayList<Integer> users;
     ArrayList<Integer> remainingCards;
     int bellUser;
+    int turn;
 
-    public StatusRes(Boolean waiting){
+    public StatusRes(Boolean waiting) {
         this.waiting = !waiting;
     }
 
-    public StatusRes(Card[] openCards, ArrayList<Integer>users,ArrayList<Integer> remainingCards){
+    public StatusRes(Card[] openCards, ArrayList<Integer> users, ArrayList<Integer> remainingCards, int turn) {
         this.waiting = false;
         this.openCards = openCards;
         this.users = users;
         this.remainingCards = remainingCards;
         this.bellUser = -1;
+        this.turn = turn;
     }
 
-    public StatusRes(Card[] openCards, ArrayList<Integer>users,ArrayList<Integer> remainingCards, int bellUser){
+    public StatusRes(Card[] openCards, ArrayList<Integer> users, ArrayList<Integer> remainingCards, int turn, int bellUser) {
         this.waiting = false;
         this.openCards = openCards;
         this.users = users;
         this.remainingCards = remainingCards;
         this.bellUser = bellUser;
+        this.turn = turn;
     }
 }

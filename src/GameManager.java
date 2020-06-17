@@ -45,13 +45,13 @@ public class GameManager {
     public StatusRes gameStatus(int userId) {
         Game game = getGameByUser(userId);
         ArrayList<Integer> remainingCards = new ArrayList<Integer>();
-        for(int i = 0; i<4;i++){
+        for (int i = 0; i < 4; i++) {
             remainingCards.add(game.deck.get(game.users.get(i)).size());
         }
-        if(game.bellUser==-1)
-            return new StatusRes(game.openCard,game.users,remainingCards);
+        if (game.bellUser == -1)
+            return new StatusRes(game.openCard, game.users, remainingCards, game.turn);
         else
-            return new StatusRes(game.openCard,game.users,remainingCards,game.bellUser);
+            return new StatusRes(game.openCard, game.users, remainingCards, game.turn, game.bellUser);
     }
 
     private Game getGameByUser(int userId) {
