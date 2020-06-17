@@ -54,9 +54,10 @@ public class StartGameScreen extends GameScreen {
 					if(clickButton.getText().contentEquals("Start"))
 					{
 						try {
-							int id = halliGalli.joinGame();
-							System.out.println("id : "+id);
-							new InGameScreen(halliGalli,DEFAULT_X,DEFAULT_Y,DEFAULT_WIDTH,DEFAULT_HEIGHT);
+							do {
+								HalligalliClient.id = halliGalli.joinGame();
+							}while(HalligalliClient.id < 0);
+							new InGameScreen(halliGalli);
 							dispose();	
 						} catch (RemoteException e1) {
 							// TODO Auto-generated catch block
@@ -84,7 +85,6 @@ public class StartGameScreen extends GameScreen {
 			e.printStackTrace();
 		}
 	}
-	
 	
 	
 }

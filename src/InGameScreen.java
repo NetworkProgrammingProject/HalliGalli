@@ -25,13 +25,12 @@ public class InGameScreen extends GameScreen {
 	
 	static final int[][] PLAYER_OUT_GRID = {{2,1},{1,2},{1,2},{2,1}};
 	static final int[][] PLAYER_IN_GRID = {{1,3},{3,1},{3,1},{1,3}};	
-
+	
 	public InGameScreen(Halligalli halliGalli)
 	{
 		super(TITLE,halliGalli);
 		setContentPane();
 	}
-	
 	
 	public InGameScreen(Halligalli halliGalli,int x,int y){
 		super(TITLE,halliGalli);

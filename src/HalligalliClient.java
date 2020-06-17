@@ -3,25 +3,32 @@ import javax.rmi.ssl.SslRMIClientSocketFactory;
 import java.net.InetAddress;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.util.Timer;
 
 public class HalligalliClient {
 
     private static final int PORT = 1099;    
+   
     
+    static int id = -1; 
+    
+    StartGameScreen stScreen;
+	Timer m_timer;	
+	ScheduledJob job;
     Users users;
-    
     
     public HalligalliClient(Halligalli halliGalli) {
     	users = new Users();
-    	new StartGameScreen(halliGalli);
+    	stScreen = new StartGameScreen(halliGalli);
+    	while(id<0);
+    	//	System.out.println(-1);
+      	m_timer = new Timer();
+        
+    	job = new ScheduledJob(halliGalli, id);
+        m_timer.schedule(job, 0, 1000);
     }
     
     public static void main(String args[]) {
-        //String mServAddr = args[0];
-        //String mServName = args[1];
-
-    
-    	
         try {
             System.setProperty("javax.net.ssl.trustStore", "trustedcerts");
             System.setProperty("javax.net.ssl.trustStorePassword", "password");
@@ -39,16 +46,13 @@ public class HalligalliClient {
             // to the remote object that implements the "Hello"
             // interface
             Halligalli obj = (Halligalli) registry.lookup(mServName);
-
-            //메소드 변경으로 인한 주석처리
-/*            String message = "Connected";
-            message = obj.getStatus();
-            if(message.contentEquals("Connected"))
-            	new HalligalliClient(obj);
-            System.out.println(message + "\n");*/
+           
+            new HalligalliClient(obj);
         } catch (Exception e) {
             System.out.println("HalliGalliClient exception: " + e.getMessage());
             e.printStackTrace();
         }
     }
+    
+    
 }
