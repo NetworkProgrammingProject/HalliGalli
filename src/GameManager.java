@@ -1,9 +1,10 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Queue;
 
-public class GameManager {
+public class GameManager implements Serializable {
     private ArrayList<Game> games;
     Queue<Integer> waitingUser;
     HashMap<Integer, Integer> gameNo;

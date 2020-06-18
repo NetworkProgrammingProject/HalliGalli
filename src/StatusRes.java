@@ -3,6 +3,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class StatusRes implements Serializable {
+
+    private static final long serialVersionUID = 1L;
     Boolean waiting;
     Card[] openCards;
     ArrayList<Integer> users;

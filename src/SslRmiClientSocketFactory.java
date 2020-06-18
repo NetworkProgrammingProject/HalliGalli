@@ -9,8 +9,8 @@ public class SslRmiClientSocketFactory implements RMIClientSocketFactory, Serial
 
     public Socket createSocket(String host, int port) throws IOException {
         SSLSocketFactory factory =
-                (SSLSocketFactory)SSLSocketFactory.getDefault();
-        SSLSocket socket = (SSLSocket)factory.createSocket(host, port);
+                (SSLSocketFactory) SSLSocketFactory.getDefault();
+        SSLSocket socket = (SSLSocket) factory.createSocket(host, port);
         return socket;
     }
 

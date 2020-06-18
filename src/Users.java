@@ -2,22 +2,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Users {
-	
+
     static private int id = 0;
-	
+
     List<User> user;
-    
-    public Users(){
+
+    public Users() {
         this.user = new ArrayList<User>();
     }
-    
-    public void addUser(){
+
+    public void addUser() {
     }
 }
-class User{
+
+class User {
     int userId;
-    
-    User(int uid){
+
+    User(int uid) {
         this.userId = uid;
     }
 

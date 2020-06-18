@@ -14,8 +14,9 @@ public class SslRmiServerSocketFactory implements RMIServerSocketFactory {
      * created by previous sessions of this SSLContext.
      */
     private SSLServerSocketFactory ssf = null;
-    final String runRoot = System.getProperty("user.dir")+"/";
-    String ksName = runRoot+".keystore/SSLSocketServerKey";
+    final String runRoot = System.getProperty("user.dir") + "/";
+    String ksName = runRoot + ".keystore/SSLSocketServerKey";
+
     public SslRmiServerSocketFactory() throws Exception {
         try {
             // set up key manager to do server authentication

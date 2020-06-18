@@ -1,6 +1,7 @@
+import java.io.Serializable;
 import java.util.*;
 
-public class Game {
+public class Game implements Serializable {
     Cards cards;
     HashMap<Integer, Queue<Card>> deck;
     ArrayList<Card> openCards;
@@ -52,7 +53,9 @@ public class Game {
         int[] fruit = new int[4];
         for (int i = 0; i < users.size(); i++) {
             Card card = this.openCard[i];
-            fruit[card.fruit - 1] += card.num;
+            //When the value of card is null, error occur so add if clause - SeokUng 
+            if(card != null)
+            	fruit[card.fruit - 1] += card.num;
         }
         for (int i = 0; i < users.size(); i++)
             if (fruit[i] == 5)
@@ -73,26 +76,35 @@ public class Game {
                     this.openCard[i] = null;
 
                 // 탈락처리
+                /*
                 for (int i = 0; i < this.users.size(); i++)
                     if (this.deck.get(this.users.get(i)).isEmpty())
                         this.users.remove(i);
-            } else                          //실패해서 카드 한장씩 다른사람에게 준다.
+                        */
+                this.bellUser = user;
+            } else
+            {
+                //실패해서 카드 한장씩 다른사람에게 준다.
                 for (int i = 0; i < users.size(); i++)
-                    this.deck.get(this.users.get(i)).add(this.deck.get(user).poll());
-            this.bellUser = user;
+                    	this.deck.get(this.users.get(i)).add(this.deck.get(user).poll());
+                this.bellUser = user*-10;
+            }
+           //this part allow all requests whenever the request for hit bell is coming
+           //So I make this part comment and move this in if block - Seok Ung
+           // this.bellUser = user;
         }
     }
 
 
 }
 
-class Cards {
+class Cards implements Serializable {
     List<Card> cards;
 
     public Cards() {
-        // 1 = 바나나  2= 딸기  3= 키위 4= 자두
+    	// 1 = 바나나  2= 딸기  3= 키위 4= 자두
         this.cards = new ArrayList<Card>();
-        for (int i = 0; i < 5; i++) {
+        for (int i = 1; i < 5; i++) {
             for (int j = 0; j < 5; j++)
                 cards.add(new Card(i, 1));
             for (int j = 0; j < 3; j++)
@@ -116,7 +128,7 @@ class Cards {
     }
 }
 
-class Card {
+class Card implements Serializable {
     int fruit;
     int num;
 
