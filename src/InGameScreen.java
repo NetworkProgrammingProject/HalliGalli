@@ -60,7 +60,7 @@ public class InGameScreen extends GameScreen implements Serializable {
         setContentPane();
         m_timer = new Timer();
         job = new ScheduledJob(this, halliGalli, id);
-        m_timer.schedule(job, 0, 1000);
+        m_timer.schedule(job, 0, 100);
 
     }
 
