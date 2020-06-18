@@ -17,6 +17,7 @@ public class ScheduledJob extends TimerTask implements Serializable {
     int uid;
     int[] users;
     int tmpTurn;
+    int contin;
 
     public ScheduledJob(InGameScreen screen, Halligalli obj, int uid) {
         try {
@@ -31,6 +32,7 @@ public class ScheduledJob extends TimerTask implements Serializable {
             curStatus.bellUser = 0;
             users = new int[4];
             print = false;
+            contin = 0;
         } catch (IllegalArgumentException e) {
             e.printStackTrace();
         }
@@ -66,15 +68,23 @@ public class ScheduledJob extends TimerTask implements Serializable {
                 		if(zeroCount<curStatus.users.size()-1)
                 			JOptionPane.showMessageDialog(null,  curStatus.bellUser+" Hit Bell", curStatus.bellUser+" Hit Bell", JOptionPane.WARNING_MESSAGE);
                 		else
-                			JOptionPane.showMessageDialog(null,  curStatus.bellUser+" Win", curStatus.bellUser+" Win", JOptionPane.WARNING_MESSAGE);
-                			
+                		{
+                			contin = JOptionPane.showConfirmDialog(null,  curStatus.bellUser+" Win. Continue?", curStatus.bellUser+" Win", JOptionPane.WARNING_MESSAGE);
+                			screen.endScreen();
+
+            				//프로그램 재시작
+                			if(contin == 0)
+                				HalligalliClient.resetClient();
+                		}	
                 	}
                 	//bell을 눌렀을 때 남아있는 카드가 0장이면 해당 사용자 패배 표시 
                 	for (int j = 0; j < 4; j++)
                          if (curStatus.users.get(j) == HalligalliClient.id) {
                              if (curStatus.remainingCards.get(j) == 0) {
+                                 contin = JOptionPane.showConfirmDialog(null, "You Lose. Continue?", "You Lose", JOptionPane.WARNING_MESSAGE);
                                  screen.endScreen();
-                                 JOptionPane.showMessageDialog(null, "You Lose", "You Lose", JOptionPane.WARNING_MESSAGE);
+                                 if(contin == 0)
+                         			HalligalliClient.resetClient();
                                  return;
                              }
                      }

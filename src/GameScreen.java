@@ -20,9 +20,17 @@ public class GameScreen extends JFrame {
     static final int DEFAULT_WIDTH = 800;
     static final int DEFAULT_HEIGHT = 400;
 
-    Halligalli halliGalli;
+    Halligalli halliGalli = HalligalliClient.halliGalli;
 
+    public GameScreen(String title) {
+        super(title);
+        setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
+        setLocationRelativeTo(null);
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    }
 
+    
+    
     public GameScreen(String title, Halligalli halliGalli) {
         super(title);
         setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);

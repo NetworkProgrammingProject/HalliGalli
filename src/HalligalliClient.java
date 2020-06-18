@@ -9,25 +9,24 @@ public class HalligalliClient {
 
     private static final int PORT = 1099;
 
-
+    static StartGameScreen stScreen;
+    static Halligalli halliGalli;
     static int id = -1;
 
-    StartGameScreen stScreen;
     Timer m_timer;
     ScheduledJob job;
     Users users;
 
 
-    public HalligalliClient(Halligalli halliGalli) {
+    public HalligalliClient() {
         users = new Users();
-        stScreen = new StartGameScreen(halliGalli);
-
-        //while(id<0);
-
-        //	System.out.println(-1);
-
+        stScreen = new StartGameScreen();
     }
 
+    static public void resetClient() {
+        stScreen = new StartGameScreen();	
+    }
+    
     public static void main(String args[]) {
         try {
             System.setProperty("javax.net.ssl.trustStore", "trustedcerts");
@@ -46,9 +45,9 @@ public class HalligalliClient {
             // "obj" is the identifier that we'll use to refer
             // to the remote object that implements the "Hello"
             // interface
-            Halligalli obj = (Halligalli) registry.lookup(mServName);
+            halliGalli = (Halligalli) registry.lookup(mServName);
 
-            new HalligalliClient(obj);
+            new HalligalliClient();
         } catch (Exception e) {
             System.out.println("HalliGalliClient exception: " + e.getMessage());
             e.printStackTrace();

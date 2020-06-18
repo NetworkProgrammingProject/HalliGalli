@@ -59,7 +59,6 @@ public class InGameScreen extends GameScreen implements Serializable {
         labPname = new JLabel[4];
         butGetCards = new JButton[4];
         labRemCards = new JLabel[4];
-        //labGetCards = new JLabel[4];
 
         setContentPane();
         m_timer = new Timer();
@@ -133,9 +132,6 @@ public class InGameScreen extends GameScreen implements Serializable {
         GridBagLayout bagLayout = new GridBagLayout();
         GridBagConstraints bagConstraints = new GridBagConstraints();
 
-        //JPanel[] pansInnerGrid = new JPanel[2];
-        //pansInnerGrid[0] = new JPanel();
-        //pansInnerGrid[1] = new JPanel();
 
         pansInnerGrid[pId][0] = new JPanel();
         pansInnerGrid[pId][1] = new JPanel();
@@ -144,14 +140,12 @@ public class InGameScreen extends GameScreen implements Serializable {
         panPname[pId] = new JPanel();
         panGetCards[pId] = new JPanel();
         panRemCards[pId] = new JPanel();
-        //panPoints[] = new JPanel();
 
 
         labRevCard[pId] = new JLabel("Empty");
         labPname[pId] = new JLabel("");
         butGetCards[pId] = new JButton("Open");
         labRemCards[pId] = new JLabel("0");
-        //labGetCards[pId] = new JLabel("0");
 
         ActionListener btnClickListener = new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -167,17 +161,7 @@ public class InGameScreen extends GameScreen implements Serializable {
             }
         };
         butGetCards[pId].addActionListener(btnClickListener);
-
-        //JPanel panRevCard = new JPanel();
-        //JPanel panPname = new JPanel();
-        //JPanel panGetCards = new JPanel();
-        //JPanel panPoints = new JPanel();
-
-        //JLabel labRevCard = new JLabel("Empty");
-        //JLabel labPname  = new JLabel("Player" + (pId+1));
-        //JLabel labGetCards = new JLabel("0");
-        //JLabel labPoints = new JLabel("0");
-
+        
         playPanel.setLayout(grid);
         grid = new GridLayout(PLAYER_IN_GRID[pId][0], PLAYER_IN_GRID[pId][1]);
 
@@ -188,49 +172,30 @@ public class InGameScreen extends GameScreen implements Serializable {
         panPname[pId].add(labPname[pId]);
         panGetCards[pId].add(butGetCards[pId]);
         panRemCards[pId].add(labRemCards[pId]);
-        //panGetCards[pId].add(labGetCards[pId]);
-
-        //pansInnerGrid[pId/2].setLayout(grid);
-        //pansInnerGrid[1-pId/2].setLayout(bagLayout);
-
-        //panRevCard.add(labRevCard);
-        //panPname.add(labPname);
-        //panGetCards.add(labGetCards);
-        //panPoints.add(labPoints);
 
         pansInnerGrid[pId][1 - pId / 2].add(panRevCard[pId], bagConstraints);
         pansInnerGrid[pId][pId / 2].add(panPname[pId]);
         pansInnerGrid[pId][pId / 2].add(panGetCards[pId]);
         pansInnerGrid[pId][pId/2].add(panRemCards[pId]);
-        //pansInnerGrid[pId][pId/2].add(panGetCards[pId]);
-        //pansInnerGrid[pId][pId/2].add(panPoints);
 
         playPanel.add(pansInnerGrid[pId][0]);
         playPanel.add(pansInnerGrid[pId][1]);
 		
 		
-	/*	pansInnerGrid[1-pId/2].add(panRevCard, bagConstraints);
-		pansInnerGrid[pId/2].add(panPname);
-		pansInnerGrid[pId/2].add(panGetCards);
-		pansInnerGrid[pId/2].add(panPoints);
-		*/
-		/*
-		playPanel.add(pansInnerGrid[0]);
-		playPanel.add(pansInnerGrid[1]);
-		*/
+
     }
 
     public void updateScreenWhenHitBell(StatusRes curState) {
     	if(curState.bellUser > 0)
     		for (int i = 0; i < 4; i++)
-    			labRevCard[i].setText("");
+    			labRevCard[i].setText("Empty");
     	
     	for(int i=0;i<4;i++)
     		labRemCards[i].setText(""+curState.remainingCards.get(i));
     }
 
 
-    // 1 = �ٳ���  2= ����  3= Ű�� 4= �ڵ�
+
     public void updateScreen(StatusRes state) {
         int curUser = state.turn;
         int fruitNum = state.openCards[curUser].fruit;
@@ -266,6 +231,7 @@ public class InGameScreen extends GameScreen implements Serializable {
     }
     
     public void endScreen() {
+    	HalligalliClient.id = -1;
         m_timer.cancel();
         dispose();
     }

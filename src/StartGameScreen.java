@@ -16,9 +16,11 @@ import javax.swing.JButton;
 public class StartGameScreen extends GameScreen {
 
     static final String TITLE = "Start Game Screen";
-
-    public StartGameScreen(Halligalli halliGalli) {
-        super(TITLE, halliGalli);
+    
+    
+    
+    public StartGameScreen() {
+        super(TITLE);
         setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
         setLocationRelativeTo(null);
         setContentPane();
@@ -50,17 +52,8 @@ public class StartGameScreen extends GameScreen {
                 public void actionPerformed(ActionEvent e) {
                     JButton clickButton = (JButton) e.getSource();
                     if (clickButton.getText().contentEquals("Start")) {
-                        try {
-                            do {
-                                HalligalliClient.id = halliGalli.joinGame();
-                            } while (HalligalliClient.id < 0);
-                            new InGameScreen(halliGalli, HalligalliClient.id);
+                        	new WaitingScreen(HalligalliClient.id);
                             dispose();
-
-                        } catch (RemoteException e1) {
-                            // TODO Auto-generated catch block
-                            e1.printStackTrace();
-                        }
                     }
                 }
             };
