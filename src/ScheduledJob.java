@@ -65,20 +65,24 @@ public class ScheduledJob extends TimerTask implements Serializable {
             if (curStatus.waiting == false) {
                 this.play = true;
                 if (prevStatus.bellUser != curStatus.bellUser && curStatus.bellUser / (-10) == HalligalliClient.id) {
-                    JOptionPane.showMessageDialog(null, "Don't Hit Bell", "Don't Hit Bell", JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "You Can't Hit Bell Now", "Don't Hit Bell", JOptionPane.WARNING_MESSAGE);
                     print = true;
                 } else if (prevStatus.bellUser != curStatus.bellUser && curStatus.bellUser == HalligalliClient.id) {
-                    JOptionPane.showMessageDialog(null, "You Hit Bell", "You Hit Bell", JOptionPane.WARNING_MESSAGE);
-                    print = true;
-                } else if (prevStatus.bellUser != curStatus.bellUser && curStatus.bellUser > 0) {
-                    JOptionPane.showMessageDialog(null, "Other Hit Bell", "Other Hit Bell", JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.showMessageDialog(null,  curStatus.bellUser+"Hit Bell", curStatus.bellUser+"Hit Bell", JOptionPane.WARNING_MESSAGE);
                     print = true;
                 }
+                /*
+                else if (prevStatus.bellUser != curStatus.bellUser && curStatus.bellUser > 0) {
+                    JOptionPane.showMessageDialog(null, " Hit Bell", "Other Hit Bell", JOptionPane.WARNING_MESSAGE);
+                    print = true;
+                }*/
+                /*
                 if (!userSet) {
                     for (int i = 0; i < 4; i++)
                         users[i] = curStatus.users.get(i);
                     userSet = true;
                 }
+                */
                 for (int i = 0; i < 4; i++) {
                     if (HalligalliClient.id != curStatus.users.get(i))
                         screen.butGetCards[i].setEnabled(false);
@@ -93,11 +97,16 @@ public class ScheduledJob extends TimerTask implements Serializable {
                     curStatus.turn = curStatus.users.size() - 1;
 
 
-                if (curStatus.bellUser > 0)
-                    screen.updateScreenWhenHitBell();
-                else if (curStatus.openCards != null && curStatus.openCards[curStatus.turn] != null) {
-                    screen.updateScreen(curStatus);
+                screen.updateScreenWhenHitBell(curStatus);
+                if (curStatus.openCards != null && curStatus.openCards[curStatus.turn] != null) {
+                {
+                	screen.updatePlayerName(curStatus);
+                	screen.updateScreen(curStatus);
                 }
+                }
+            }
+           if(curStatus.users != null) {
+            	screen.updatePlayerName(curStatus);
             }
 
 

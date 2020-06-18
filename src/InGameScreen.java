@@ -27,7 +27,7 @@ public class InGameScreen extends GameScreen implements Serializable {
 
     static final int[][] PLAYER_OUT_GRID = {{2, 1}, {1, 2}, {1, 2}, {2, 1}};
     //static final int[][] PLAYER_IN_GRID = {{1,3},{3,1},{3,1},{1,3}};
-    static final int[][] PLAYER_IN_GRID = {{1, 2}, {2, 1}, {2, 1}, {1, 2}};
+    static final int[][] PLAYER_IN_GRID = {{1, 3}, {3, 1}, {3, 1}, {1, 3}};
 
 
     Timer m_timer;
@@ -38,12 +38,14 @@ public class InGameScreen extends GameScreen implements Serializable {
     JPanel[] panRevCard;
     JPanel[] panPname;
     JPanel[] panGetCards;
-
+    JPanel[] panRemCards;
+    
     JLabel[] labRevCard;
     JLabel[] labPname;
     JButton[] butGetCards;
-    //JLabel[] labGetCards;
-
+    JLabel[] labGetCards;
+    JLabel[] labRemCards;
+    
 
     public InGameScreen(Halligalli halliGalli, int id) {
         super(TITLE, halliGalli);
@@ -51,10 +53,12 @@ public class InGameScreen extends GameScreen implements Serializable {
         panRevCard = new JPanel[4];
         panPname = new JPanel[4];
         panGetCards = new JPanel[4];
-
+        panRemCards = new JPanel[4];
+        
         labRevCard = new JLabel[4];
         labPname = new JLabel[4];
         butGetCards = new JButton[4];
+        labRemCards = new JLabel[4];
         //labGetCards = new JLabel[4];
 
         setContentPane();
@@ -139,12 +143,14 @@ public class InGameScreen extends GameScreen implements Serializable {
         panRevCard[pId] = new JPanel();
         panPname[pId] = new JPanel();
         panGetCards[pId] = new JPanel();
+        panRemCards[pId] = new JPanel();
         //panPoints[] = new JPanel();
 
 
         labRevCard[pId] = new JLabel("Empty");
         labPname[pId] = new JLabel("");
         butGetCards[pId] = new JButton("Open");
+        labRemCards[pId] = new JLabel("0");
         //labGetCards[pId] = new JLabel("0");
 
         ActionListener btnClickListener = new ActionListener() {
@@ -181,6 +187,7 @@ public class InGameScreen extends GameScreen implements Serializable {
         panRevCard[pId].add(labRevCard[pId]);
         panPname[pId].add(labPname[pId]);
         panGetCards[pId].add(butGetCards[pId]);
+        panRemCards[pId].add(labRemCards[pId]);
         //panGetCards[pId].add(labGetCards[pId]);
 
         //pansInnerGrid[pId/2].setLayout(grid);
@@ -194,6 +201,7 @@ public class InGameScreen extends GameScreen implements Serializable {
         pansInnerGrid[pId][1 - pId / 2].add(panRevCard[pId], bagConstraints);
         pansInnerGrid[pId][pId / 2].add(panPname[pId]);
         pansInnerGrid[pId][pId / 2].add(panGetCards[pId]);
+        pansInnerGrid[pId][pId/2].add(panRemCards[pId]);
         //pansInnerGrid[pId][pId/2].add(panGetCards[pId]);
         //pansInnerGrid[pId][pId/2].add(panPoints);
 
@@ -212,9 +220,13 @@ public class InGameScreen extends GameScreen implements Serializable {
 		*/
     }
 
-    public void updateScreenWhenHitBell() {
-        for (int i = 0; i < 4; i++)
-            labRevCard[i].setText("");
+    public void updateScreenWhenHitBell(StatusRes curState) {
+    	if(curState.bellUser > 0)
+    		for (int i = 0; i < 4; i++)
+    			labRevCard[i].setText("");
+    	else
+    		for(int i=0;i<4;i++)
+    			labRemCards[i].setText(""+curState.remainingCards.get(i));
     }
 
 
@@ -227,26 +239,32 @@ public class InGameScreen extends GameScreen implements Serializable {
 
         switch (fruitNum) {
             case 1:
-                fruit = "BA";
+                fruit = "바나나";
                 break;
             case 2:
-                fruit = "ST";
+                fruit = "딸기";
                 break;
             case 3:
-                fruit = "KI";
+                fruit = "키위";
                 break;
             case 4:
-                fruit = "PL";
+                fruit = "자두";
                 break;
         }
 
 
         labRevCard[curUser].setText(fruit + num);
         labPname[curUser].setText("Player" + Integer.toString(state.users.get(curUser)));
+        labRemCards[curUser].setText(Integer.toString(state.remainingCards.get(curUser)));
         //labGetCards[curUser].setText(state.);
 
     }
 
+    public void updatePlayerName(StatusRes state) {
+    		for(int i=0;i<state.users.size();i++)
+    			labPname[i].setText(""+state.users.get(i));
+    }
+    
     public void endScreen() {
         m_timer.cancel();
         dispose();

@@ -17,7 +17,7 @@ public class GameScreen extends JFrame {
 
     static final int DEFAULT_X = 0;
     static final int DEFAULT_Y = 0;
-    static final int DEFAULT_WIDTH = 400;
+    static final int DEFAULT_WIDTH = 800;
     static final int DEFAULT_HEIGHT = 400;
 
     Halligalli halliGalli;

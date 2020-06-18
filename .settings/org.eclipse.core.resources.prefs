@@ -1,3 +1,15 @@
 eclipse.preferences.version=1
+encoding//src/Game.java=UTF-8
 encoding//src/GameManager.java=UTF-8
+encoding//src/GameScreen.java=UTF-8
+encoding//src/Halligalli.java=UTF-8
+encoding//src/HalligalliClient.java=UTF-8
 encoding//src/HalligalliImpl.java=UTF-8
+encoding//src/HalligalliServer.java=UTF-8
+encoding//src/InGameScreen.java=UTF-8
+encoding//src/ScheduledJob.java=UTF-8
+encoding//src/SslRmiClientSocketFactory.java=UTF-8
+encoding//src/SslRmiServerSocketFactory.java=UTF-8
+encoding//src/StartGameScreen.java=UTF-8
+encoding//src/StatusRes.java=UTF-8
+encoding//src/Users.java=UTF-8
