@@ -28,6 +28,7 @@ public class GameScreen extends JFrame {
         setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
         setLocationRelativeTo(null);
         setHalligalli(halliGalli);
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
     public GameScreen(int x, int y, int w, int h) {

@@ -224,9 +224,9 @@ public class InGameScreen extends GameScreen implements Serializable {
     	if(curState.bellUser > 0)
     		for (int i = 0; i < 4; i++)
     			labRevCard[i].setText("");
-    	else
-    		for(int i=0;i<4;i++)
-    			labRemCards[i].setText(""+curState.remainingCards.get(i));
+    	
+    	for(int i=0;i<4;i++)
+    		labRemCards[i].setText(""+curState.remainingCards.get(i));
     }
 
 

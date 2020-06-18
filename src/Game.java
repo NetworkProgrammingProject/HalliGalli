@@ -49,9 +49,9 @@ public class Game implements Serializable {
         this.openCard[userNo] = openedCard;
         calTurn(user);
         this.bellUser = -1;
-        for(int i = 0; i<4; i++){
-            System.out.println(openCard[i].fruit + " " + openCard[i].num);
-        }
+        //for(int i = 0; i<4; i++){
+         //   System.out.println(openCard[i].fruit + " " + openCard[i].num);
+        //}
     }
 
     public void calTurn(int user) {
