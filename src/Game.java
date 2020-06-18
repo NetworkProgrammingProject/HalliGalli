@@ -7,6 +7,8 @@ public class Game implements Serializable {
     ArrayList<Card> openCards;
     Card[] openCard;
     ArrayList<Integer> users;
+    ArrayList<Boolean> aliveUsers;
+
     int turn = 0;
     int bellUser;
 
@@ -16,6 +18,7 @@ public class Game implements Serializable {
         this.openCard = new Card[4];
         this.deck = new HashMap<Integer, Queue<Card>>();
         this.users = new ArrayList<Integer>();
+        this.aliveUsers = new ArrayList<Boolean>();
         this.users.add(user1);
         this.users.add(user2);
         this.users.add(user3);
@@ -35,6 +38,8 @@ public class Game implements Serializable {
         this.deck.put(user2, deck2);
         this.deck.put(user3, deck3);
         this.deck.put(user4, deck4);
+        for (int i = 0; i < 4; i++)
+            this.aliveUsers.add(Boolean.TRUE);
     }
 
     public void openByUser(int user) {
@@ -42,11 +47,33 @@ public class Game implements Serializable {
         this.openCards.add(openedCard);
         int userNo = this.users.indexOf(user);
         this.openCard[userNo] = openedCard;
-        if (userNo == this.users.size() - 1)
-            this.turn = 0;
-        else
-            this.turn = userNo + 1;
+        calTurn(user);
         this.bellUser = -1;
+        for(int i = 0; i<4; i++){
+            System.out.println(openCard[i].fruit + " " + openCard[i].num);
+        }
+    }
+
+    public void calTurn(int user) {
+        int userNo = this.users.indexOf(user);
+        this.turn = -1;
+        if (userNo == 3)
+            userNo = -1;
+        for (int i = userNo + 1; i < this.users.size(); i++)
+            if (this.aliveUsers.get(i))
+                if (!this.deck.get(this.users.get(i)).isEmpty()){
+                    this.turn = i;
+                    System.out.println(i + 1 + " 번 플레이어의 차례");
+                    break;
+                }
+        if (this.turn == -1)
+            for (int i = 0; i < 4; i++)
+                if (this.aliveUsers.get(i))
+                    if (!this.deck.get(this.users.get(i)).isEmpty()){
+                        this.turn = i;
+                        System.out.println(i + 1 + " 번 플레이어의 차례");
+                        break;
+                    }
     }
 
     public Boolean validateBell() {
@@ -54,8 +81,8 @@ public class Game implements Serializable {
         for (int i = 0; i < users.size(); i++) {
             Card card = this.openCard[i];
             //When the value of card is null, error occur so add if clause - SeokUng 
-            if(card != null)
-            	fruit[card.fruit - 1] += card.num;
+            if (card != null)
+                fruit[card.fruit - 1] += card.num;
         }
         for (int i = 0; i < users.size(); i++)
             if (fruit[i] == 5)
@@ -65,7 +92,8 @@ public class Game implements Serializable {
 
     public synchronized void hitBell(int user) {
         if (this.bellUser == -1) {
-            if (this.validateBell()) {       //성공 해서 카드 받는다
+            Boolean isSuccess = this.validateBell();
+            if (isSuccess) {       //성공 해서 카드 받는다
                 for (int i = 0; i < openCards.size(); i++)
                     this.deck.get(user).add(openCards.get(i));
                 this.openCards.clear();
@@ -75,23 +103,33 @@ public class Game implements Serializable {
                 for (int i = 0; i < this.users.size(); i++)
                     this.openCard[i] = null;
 
-                // 탈락처리
-                /*
-                for (int i = 0; i < this.users.size(); i++)
-                    if (this.deck.get(this.users.get(i)).isEmpty())
-                        this.users.remove(i);
-                        */
                 this.bellUser = user;
-            } else
-            {
+            } else {
                 //실패해서 카드 한장씩 다른사람에게 준다.
-                for (int i = 0; i < users.size(); i++)
-                    	this.deck.get(this.users.get(i)).add(this.deck.get(user).poll());
-                this.bellUser = user*-10;
+                int aliveUserNum = 0;
+                // 탈락 안한 유저수
+                for (int i = 0; i < this.users.size(); i++)
+                    if (this.aliveUsers.get(i))
+                        aliveUserNum++;
+                 // 잘못 친 유저의 카드수가 유저수보다 적을 때
+                if (this.deck.get(user).size() < aliveUserNum)
+                    aliveUserNum = this.deck.get(user).size();
+
+                for (int i = 0; i < aliveUserNum; i++)
+                    if (this.aliveUsers.get(i))
+                        if(this.users.get(i)!=user)
+                            this.deck.get(this.users.get(i)).add(this.deck.get(user).poll());
+
+                this.bellUser = user * -10;
             }
-           //this part allow all requests whenever the request for hit bell is coming
-           //So I make this part comment and move this in if block - Seok Ung
-           // this.bellUser = user;
+            //this part allow all requests whenever the request for hit bell is coming
+            //So I make this part comment and move this in if block - Seok Ung
+            // this.bellUser = user;
+            // 탈락처리
+            for (int i = 0; i < this.users.size(); i++)
+                if (this.deck.get(this.users.get(i)).isEmpty())
+                    if(this.aliveUsers.get(i))
+                        this.aliveUsers.set(i, Boolean.FALSE);
         }
     }
 
@@ -102,7 +140,7 @@ class Cards implements Serializable {
     List<Card> cards;
 
     public Cards() {
-    	// 1 = 바나나  2= 딸기  3= 키위 4= 자두
+        // 1 = 바나나  2= 딸기  3= 키위 4= 자두
         this.cards = new ArrayList<Card>();
         for (int i = 1; i < 5; i++) {
             for (int j = 0; j < 5; j++)
