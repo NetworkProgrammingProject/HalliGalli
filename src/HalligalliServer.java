@@ -24,6 +24,7 @@ public class HalligalliServer {
         } catch (Exception e) {
             System.out.println("Trouble: " + e);
         }
+        
     }
 
     public static void main(String args[]) throws UnknownHostException {

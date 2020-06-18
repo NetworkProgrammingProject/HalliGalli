@@ -41,7 +41,7 @@ public class ScheduledJob extends TimerTask implements Serializable {
             prevStatus = curStatus;
             curStatus = job.getStatus(play, uid);
             if (curStatus.remainingCards != null) {
-                for (int j = 0; j < 4; j++)
+/*                for (int j = 0; j < 4; j++)
                     if (curStatus.users.get(j) == HalligalliClient.id) {
                         if (curStatus.remainingCards.get(j) == 0) {
                             screen.endScreen();
@@ -49,7 +49,7 @@ public class ScheduledJob extends TimerTask implements Serializable {
                             return;
                         }
                     }
-                int zero_cnt = 0;
+ */               int zero_cnt = 0;
                 for (int j = 0; j < 4; j++) {
                     if (curStatus.remainingCards.get(j) == 0)
                         zero_cnt++;
@@ -66,10 +66,20 @@ public class ScheduledJob extends TimerTask implements Serializable {
                 this.play = true;
                 if (prevStatus.bellUser != curStatus.bellUser && curStatus.bellUser / (-10) == HalligalliClient.id) {
                     JOptionPane.showMessageDialog(null, "You Can't Hit Bell Now", "Don't Hit Bell", JOptionPane.WARNING_MESSAGE);
-                    print = true;
+                	screen.updatePlayerName(curStatus);
+                	screen.updateScreen(curStatus);
                 } else if (prevStatus.bellUser != curStatus.bellUser && curStatus.bellUser == HalligalliClient.id) {
-                    JOptionPane.showMessageDialog(null,  curStatus.bellUser+"Hit Bell", curStatus.bellUser+"Hit Bell", JOptionPane.WARNING_MESSAGE);
-                    print = true;
+                	for (int j = 0; j < 4; j++)
+                        if (curStatus.users.get(j) == HalligalliClient.id) {
+                            if (curStatus.remainingCards.get(j) == 0) {
+                                screen.endScreen();
+                                JOptionPane.showMessageDialog(null, "Lose", "Lose", JOptionPane.WARNING_MESSAGE);
+                                return;
+                            }
+                        }	
+                	JOptionPane.showMessageDialog(null,  curStatus.bellUser+"Hit Bell", curStatus.bellUser+"Hit Bell", JOptionPane.WARNING_MESSAGE);
+                	screen.updatePlayerName(curStatus);
+                	screen.updateScreen(curStatus);
                 }
                 /*
                 else if (prevStatus.bellUser != curStatus.bellUser && curStatus.bellUser > 0) {
@@ -83,6 +93,7 @@ public class ScheduledJob extends TimerTask implements Serializable {
                     userSet = true;
                 }
                 */
+                
                 for (int i = 0; i < 4; i++) {
                     if (HalligalliClient.id != curStatus.users.get(i))
                         screen.butGetCards[i].setEnabled(false);
@@ -92,11 +103,21 @@ public class ScheduledJob extends TimerTask implements Serializable {
                         screen.butGetCards[i].setEnabled(true);
                 }
 
-                curStatus.turn -= 1;
-                if (curStatus.turn < 0)
-                    curStatus.turn = curStatus.users.size() - 1;
-
-
+                if(curStatus.remainingCards.get(curStatus.turn)==0)
+                {
+                	for(;curStatus.turn+1<4;curStatus.turn=(curStatus.turn+1)%4)
+                		if(curStatus.remainingCards.get(curStatus.turn)!=0)
+                			break;
+                	if(curStatus.users.get(curStatus.turn) == HalligalliClient.id)
+                        screen.butGetCards[curStatus.turn].setEnabled(true); 		
+                }
+                else
+                {
+                	curStatus.turn -= 1;
+                    if (curStatus.turn < 0)
+                        curStatus.turn = curStatus.users.size() - 1;
+                }
+                
                 screen.updateScreenWhenHitBell(curStatus);
                 if (curStatus.openCards != null && curStatus.openCards[curStatus.turn] != null) {
                 {

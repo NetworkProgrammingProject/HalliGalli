@@ -262,7 +262,7 @@ public class InGameScreen extends GameScreen implements Serializable {
 
     public void updatePlayerName(StatusRes state) {
     		for(int i=0;i<state.users.size();i++)
-    			labPname[i].setText(""+state.users.get(i));
+    			labPname[i].setText("Player"+state.users.get(i));
     }
     
     public void endScreen() {
