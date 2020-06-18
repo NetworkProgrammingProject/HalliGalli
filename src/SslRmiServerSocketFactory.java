@@ -9,17 +9,12 @@ import java.security.KeyStore;
 
 public class SslRmiServerSocketFactory implements RMIServerSocketFactory {
 
-    /*
-     * Create one SSLServerSocketFactory, so we can reuse sessions
-     * created by previous sessions of this SSLContext.
-     */
     private SSLServerSocketFactory ssf = null;
     final String runRoot = System.getProperty("user.dir") + "/";
     String ksName = runRoot + ".keystore/SSLSocketServerKey";
 
     public SslRmiServerSocketFactory() throws Exception {
         try {
-            // set up key manager to do server authentication
             SSLContext ctx;
             KeyManagerFactory kmf;
             KeyStore ks;

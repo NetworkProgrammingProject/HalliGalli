@@ -24,9 +24,9 @@ public class HalligalliClient {
     }
 
     static public void resetClient() {
-        stScreen = new StartGameScreen();	
+        stScreen = new StartGameScreen();
     }
-    
+
     public static void main(String args[]) {
         try {
             System.setProperty("javax.net.ssl.trustStore", "trustedcerts");

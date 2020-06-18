@@ -49,9 +49,6 @@ public class Game implements Serializable {
         this.openCard[userNo] = openedCard;
         calTurn(user);
         this.bellUser = -1;
-        //for(int i = 0; i<4; i++){
-         //   System.out.println(openCard[i].fruit + " " + openCard[i].num);
-        //}
     }
 
     public void calTurn(int user) {
@@ -61,7 +58,7 @@ public class Game implements Serializable {
             userNo = -1;
         for (int i = userNo + 1; i < this.users.size(); i++)
             if (this.aliveUsers.get(i))
-                if (!this.deck.get(this.users.get(i)).isEmpty()){
+                if (!this.deck.get(this.users.get(i)).isEmpty()) {
                     this.turn = i;
                     System.out.println(i + 1 + " 번 플레이어의 차례");
                     break;
@@ -69,7 +66,7 @@ public class Game implements Serializable {
         if (this.turn == -1)
             for (int i = 0; i < 4; i++)
                 if (this.aliveUsers.get(i))
-                    if (!this.deck.get(this.users.get(i)).isEmpty()){
+                    if (!this.deck.get(this.users.get(i)).isEmpty()) {
                         this.turn = i;
                         System.out.println(i + 1 + " 번 플레이어의 차례");
                         break;
@@ -111,24 +108,21 @@ public class Game implements Serializable {
                 for (int i = 0; i < this.users.size(); i++)
                     if (this.aliveUsers.get(i))
                         aliveUserNum++;
-                 // 잘못 친 유저의 카드수가 유저수보다 적을 때
+                // 잘못 친 유저의 카드수가 유저수보다 적을 때
                 if (this.deck.get(user).size() < aliveUserNum)
                     aliveUserNum = this.deck.get(user).size();
 
                 for (int i = 0; i < aliveUserNum; i++)
                     if (this.aliveUsers.get(i))
-                        if(this.users.get(i)!=user)
+                        if (this.users.get(i) != user)
                             this.deck.get(this.users.get(i)).add(this.deck.get(user).poll());
 
                 this.bellUser = user * -10;
             }
-            //this part allow all requests whenever the request for hit bell is coming
-            //So I make this part comment and move this in if block - Seok Ung
-            // this.bellUser = user;
             // 탈락처리
             for (int i = 0; i < this.users.size(); i++)
                 if (this.deck.get(this.users.get(i)).isEmpty())
-                    if(this.aliveUsers.get(i))
+                    if (this.aliveUsers.get(i))
                         this.aliveUsers.set(i, Boolean.FALSE);
         }
     }

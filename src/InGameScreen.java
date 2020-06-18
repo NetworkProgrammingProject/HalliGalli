@@ -17,7 +17,6 @@ import javax.swing.JLabel;
 
 
 public class InGameScreen extends GameScreen implements Serializable {
-
     static final String TITLE = "Play Game";
     static final int PLAYER1 = 1;
     static final int PLAYER2 = 3;
@@ -26,9 +25,7 @@ public class InGameScreen extends GameScreen implements Serializable {
     static final int BELL = 4;
 
     static final int[][] PLAYER_OUT_GRID = {{2, 1}, {1, 2}, {1, 2}, {2, 1}};
-    //static final int[][] PLAYER_IN_GRID = {{1,3},{3,1},{3,1},{1,3}};
     static final int[][] PLAYER_IN_GRID = {{1, 3}, {3, 1}, {3, 1}, {1, 3}};
-
 
     Timer m_timer;
     ScheduledJob job;
@@ -39,13 +36,11 @@ public class InGameScreen extends GameScreen implements Serializable {
     JPanel[] panPname;
     JPanel[] panGetCards;
     JPanel[] panRemCards;
-    
+
     JLabel[] labRevCard;
     JLabel[] labPname;
     JButton[] butGetCards;
-    JLabel[] labGetCards;
     JLabel[] labRemCards;
-    
 
     public InGameScreen(Halligalli halliGalli, int id) {
         super(TITLE, halliGalli);
@@ -54,7 +49,7 @@ public class InGameScreen extends GameScreen implements Serializable {
         panPname = new JPanel[4];
         panGetCards = new JPanel[4];
         panRemCards = new JPanel[4];
-        
+
         labRevCard = new JLabel[4];
         labPname = new JLabel[4];
         butGetCards = new JButton[4];
@@ -87,7 +82,6 @@ public class InGameScreen extends GameScreen implements Serializable {
         GridBagConstraints bagConstraints = new GridBagConstraints();
         JButton bellButton;
 
-
         try {
             contentPane.setLayout(grid);
 
@@ -102,7 +96,6 @@ public class InGameScreen extends GameScreen implements Serializable {
                                 try {
                                     halliGalli.hitBell(HalligalliClient.id);
                                 } catch (RemoteException e1) {
-                                    // TODO Auto-generated catch block
                                     e1.printStackTrace();
                                 }
                             }
@@ -124,14 +117,10 @@ public class InGameScreen extends GameScreen implements Serializable {
         }
     }
 
-    public void setContentPane(StatusRes stae) {
-    }
-
     private void setPlayerPanel(int pId, JPanel playPanel) {
         GridLayout grid = new GridLayout(PLAYER_OUT_GRID[pId][0], PLAYER_OUT_GRID[pId][1]);
         GridBagLayout bagLayout = new GridBagLayout();
         GridBagConstraints bagConstraints = new GridBagConstraints();
-
 
         pansInnerGrid[pId][0] = new JPanel();
         pansInnerGrid[pId][1] = new JPanel();
@@ -140,7 +129,6 @@ public class InGameScreen extends GameScreen implements Serializable {
         panPname[pId] = new JPanel();
         panGetCards[pId] = new JPanel();
         panRemCards[pId] = new JPanel();
-
 
         labRevCard[pId] = new JLabel("Empty");
         labPname[pId] = new JLabel("");
@@ -154,14 +142,13 @@ public class InGameScreen extends GameScreen implements Serializable {
                     try {
                         halliGalli.openCard(HalligalliClient.id);
                     } catch (RemoteException e1) {
-                        // TODO Auto-generated catch block
                         e1.printStackTrace();
                     }
                 }
             }
         };
         butGetCards[pId].addActionListener(btnClickListener);
-        
+
         playPanel.setLayout(grid);
         grid = new GridLayout(PLAYER_IN_GRID[pId][0], PLAYER_IN_GRID[pId][1]);
 
@@ -176,25 +163,20 @@ public class InGameScreen extends GameScreen implements Serializable {
         pansInnerGrid[pId][1 - pId / 2].add(panRevCard[pId], bagConstraints);
         pansInnerGrid[pId][pId / 2].add(panPname[pId]);
         pansInnerGrid[pId][pId / 2].add(panGetCards[pId]);
-        pansInnerGrid[pId][pId/2].add(panRemCards[pId]);
+        pansInnerGrid[pId][pId / 2].add(panRemCards[pId]);
 
         playPanel.add(pansInnerGrid[pId][0]);
         playPanel.add(pansInnerGrid[pId][1]);
-		
-		
-
     }
 
     public void updateScreenWhenHitBell(StatusRes curState) {
-    	if(curState.bellUser > 0)
-    		for (int i = 0; i < 4; i++)
-    			labRevCard[i].setText("Empty");
-    	
-    	for(int i=0;i<4;i++)
-    		labRemCards[i].setText(""+curState.remainingCards.get(i));
+        if (curState.bellUser > 0)
+            for (int i = 0; i < 4; i++)
+                labRevCard[i].setText("Empty");
+
+        for (int i = 0; i < 4; i++)
+            labRemCards[i].setText("" + curState.remainingCards.get(i));
     }
-
-
 
     public void updateScreen(StatusRes state) {
         int curUser = state.turn;
@@ -217,21 +199,18 @@ public class InGameScreen extends GameScreen implements Serializable {
                 break;
         }
 
-
         labRevCard[curUser].setText(fruit + num);
         labPname[curUser].setText("Player" + Integer.toString(state.users.get(curUser)));
         labRemCards[curUser].setText(Integer.toString(state.remainingCards.get(curUser)));
-        //labGetCards[curUser].setText(state.);
-
     }
 
     public void updatePlayerName(StatusRes state) {
-    		for(int i=0;i<state.users.size();i++)
-    			labPname[i].setText("Player"+state.users.get(i));
+        for (int i = 0; i < state.users.size(); i++)
+            labPname[i].setText("Player" + state.users.get(i));
     }
-    
+
     public void endScreen() {
-    	HalligalliClient.id = -1;
+        HalligalliClient.id = -1;
         m_timer.cancel();
         dispose();
     }

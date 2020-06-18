@@ -29,8 +29,7 @@ public class GameScreen extends JFrame {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
-    
-    
+
     public GameScreen(String title, Halligalli halliGalli) {
         super(title);
         setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);

@@ -16,9 +16,7 @@ import javax.swing.JButton;
 public class StartGameScreen extends GameScreen {
 
     static final String TITLE = "Start Game Screen";
-    
-    
-    
+
     public StartGameScreen() {
         super(TITLE);
         setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
@@ -26,13 +24,11 @@ public class StartGameScreen extends GameScreen {
         setContentPane();
     }
 
-
     public StartGameScreen(Halligalli halliGalli, int x, int y) {
         super(TITLE, halliGalli);
         makeFrame(x, y, 0, 0);
         setContentPane();
     }
-
 
     public StartGameScreen(Halligalli halliGalli, int x, int y, int w, int h) {
         super(TITLE, halliGalli);
@@ -52,8 +48,8 @@ public class StartGameScreen extends GameScreen {
                 public void actionPerformed(ActionEvent e) {
                     JButton clickButton = (JButton) e.getSource();
                     if (clickButton.getText().contentEquals("Start")) {
-                        	new WaitingScreen(HalligalliClient.id);
-                            dispose();
+                        new WaitingScreen(HalligalliClient.id);
+                        dispose();
                     }
                 }
             };
@@ -68,7 +64,6 @@ public class StartGameScreen extends GameScreen {
 
             contentPane.setLayout(gridBag);
             contentPane.add(buttonPane, gridConst);
-
 
             setVisible(true);
         } catch (Exception e) {
